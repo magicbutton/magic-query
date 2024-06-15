@@ -9,5 +9,5 @@
   "dnsprod": "people.intra.nexigroup.com",
   "dnstest": "people-test.intra.nexigroup.com",
   "imagename": "ghcr.io/magicbutton/magic-people",
-  "port": 4339
+  "port": 4731
 }

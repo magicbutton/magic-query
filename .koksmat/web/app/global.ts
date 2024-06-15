@@ -1,5 +1,5 @@
-export const APPNAME = "master";
-export const CLARITY = "luhqg4xhfv";
+export const APPNAME = "query";
+export const CLARITY = "x";
 export const MSAL = {
   clientId: "3a8bf549-eb49-4c60-912b-bb30cd964574",
 
