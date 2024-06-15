@@ -1,0 +1,13 @@
+{
+  "version": {
+    "minor": 0,
+    "build": 4,
+    "patch": 4,
+    "major": 0
+  },
+  "appname": "magic-people",
+  "dnsprod": "people.intra.nexigroup.com",
+  "dnstest": "people-test.intra.nexigroup.com",
+  "imagename": "ghcr.io/magicbutton/magic-people",
+  "port": 4339
+}
