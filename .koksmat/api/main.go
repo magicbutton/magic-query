@@ -29,15 +29,10 @@ func main() {
 	r.HandleFunc("/authenticate", handlers.Authenticate).Methods("POST")
 	r.HandleFunc("/health", handlers.HealthCheck)
 
-	api := r.PathPrefix("/v1.0").Subrouter()
+	api := r.PathPrefix("/").Subrouter()
 	api.Use(middleware.RateLimiter)
 	api.Use(middleware.AuthMiddleware)
-	api.HandleFunc("/{rest:.*}", handlers.GenericHandler)
-
-	beta := r.PathPrefix("/beta").Subrouter()
-	beta.Use(middleware.RateLimiter)
-	beta.Use(middleware.AuthMiddleware)
-	beta.HandleFunc("/{rest:.*}", handlers.GenericHandler)
+	api.HandleFunc("/{version}/{slug:.*}", handlers.GenericHandler)
 
 	srv := &http.Server{
 		Handler:      r,

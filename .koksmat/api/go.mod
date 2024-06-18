@@ -8,6 +8,13 @@ require (
 )
 
 require (
+	github.com/klauspost/compress v1.17.2 // indirect
+	github.com/nats-io/nats.go v1.34.0 // indirect
+	github.com/nats-io/nkeys v0.4.7 // indirect
+	github.com/nats-io/nuid v1.0.1 // indirect
+)
+
+require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
@@ -15,6 +22,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/lib/pq v1.10.9
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
