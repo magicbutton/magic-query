@@ -46,6 +46,9 @@ function env($name, $value ) {
 # $envs += env "SITEURL" $env:SITEURL
 $envs += env "NATS" "nats://nats:4222"
 $envs += env "POSTGRES_DB" $env:POSTGRES_DB
+$envs += env "JWT_SECRET" $env:JWT_SECRET
+$envs += env "REDIS_URL" $env:REDIS_URL
+$envs += env "PORT" $env:PORT
 $configEnv = ""
 foreach ($item in $envs) {
 

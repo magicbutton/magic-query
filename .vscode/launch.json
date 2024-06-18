@@ -23,6 +23,15 @@
             "args": ["service"]
         }, 
         {
+            "name": "API",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/.koksmat/api",
+            "program": "${workspaceFolder}/.koksmat/api",
+            "args": []
+        }, 
+        {
             "name": "app db init",
             "type": "go",
             "request": "launch",
