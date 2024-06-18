@@ -48,8 +48,8 @@ export function ChatGPT1() {
             <div className="flex items-end gap-2 ml-auto">
               <div className="bg-blue-500 text-white rounded-lg p-2 max-w-md">
                 <p>
-                  Hello! I'm looking for information on how to plan a trip to
-                  Paris.
+                  Hello! I&apos;m looking for information on how to plan a trip
+                  to Paris.
                 </p>
               </div>
               <Avatar className="w-8 h-8 bg-blue-500 text-white rounded-full">
