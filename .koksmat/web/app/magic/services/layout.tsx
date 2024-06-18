@@ -1,7 +1,7 @@
 import path from "path";
 import { cwd } from "process";
 import fs from "fs";
-import { pagemap } from "./magic-people";
+import { pagemap } from "./magic-mix";
 import { TestServicesNavigator } from "../components/testservicenavigator";
 import {
   Sheet,
@@ -22,7 +22,7 @@ export default function Layout(props: { children: any }) {
     return (
       <div className="text-orange-400">Only works in development mode</div>
     );
-  const APPNAME = "magic-people";
+  const APPNAME = "magic-mix";
   return (
     <div>
       <div className="p-10">

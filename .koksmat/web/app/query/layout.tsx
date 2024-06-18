@@ -24,7 +24,7 @@ export default function Layout(props: { children: any }) {
   }
   if (!magicbox.user) {
     return (
-      <div className="flex h-screen">
+      <div className="flex h-full">
         <div className="grow"></div>
         <div className="flex flex-col">
           <div className="grow"></div>
@@ -48,7 +48,7 @@ export default function Layout(props: { children: any }) {
   }
   return (
     <AppProvider>
-      <div className="flex bg-[#2D32A9] h-[80px]">
+      {/* <div className="flex bg-[#2D32A9] h-[80px] hidden">
         <div className="hidden md:block w-14 "></div>
         <div className="p-2 text-white font-extralight text-2xl  md:text-4xl mt-3 ml-10 md:mt-2 md:ml-0 w-full">
           <div className="flex">
@@ -62,15 +62,15 @@ export default function Layout(props: { children: any }) {
             </div>
           </div>
         </div>
-        $$
-      </div>
-      <div className="flex min-h-[calc(100vh-80px)]">
-        <div className="hidden md:block">
+        
+      </div> */}
+      <div className="flex">
+        <div className="hidden md:block min-h-screen overflow-auto">
           <AppLeftRail {...leftRailApps} />
         </div>
-        <div className="grow bg-slate-50 dark:bg-slate-800"></div>
-        <div className="container p-8">{children}</div>
-        <div className="grow  bg-slate-50  dark:bg-slate-800"></div>
+        {/* <div className="grow bg-slate-50 dark:bg-slate-800"></div> */}
+        <div className="grow">{children}</div>
+        {/* <div className="grow  bg-slate-50  dark:bg-slate-800"></div> */}
         <div className="hidden md:block">
           {magicbox.showTracer && <Tracer />}
         </div>

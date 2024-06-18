@@ -38,6 +38,7 @@ export async function run<T>(
 
     const sc = StringCodec();
     const encodedPayload = sc.encode(payload);
+
     const response = await nc
       .request(subject, encodedPayload, { timeout: timeout * 1000 })
       .catch((error) => {

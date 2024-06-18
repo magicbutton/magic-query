@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,12 +14,34 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PromptGenerator } from "./promptgenerator";
+import { ChatGPT1 } from "./chatgpt1";
+import { SQLItem } from "@/app/magic/services/magic-mix/sql/applogic/model";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "./ui/resizable";
 
-export function Editor() {
-  const [view, setView] = useState<"view" | "sql" | "ai" | "tsx">("view");
-
+export interface SQLItemEditorProps {
+  dataItem?: SQLItem;
+  onSave?: (item: SQLItem) => void;
+  onAdd?: (item: SQLItem) => void;
+}
+export function Editor(props: SQLItemEditorProps) {
+  const item = props.dataItem;
+  const [view, setView] = useState<"view" | "sql" | "ai" | "tsx">();
+  useEffect(() => {
+    const view = localStorage.getItem("editorviewstate");
+    if (view) {
+      setView(view as any);
+    }
+  }, []);
+  function setViewAndSave(view: "view" | "sql" | "ai" | "tsx") {
+    localStorage.setItem("editorviewstate", view);
+    setView(view);
+  }
   const renderContent = () => {
     switch (view) {
       case "view":
@@ -29,22 +52,38 @@ export function Editor() {
         );
       case "sql":
         return (
-          <Textarea
-            placeholder="Enter your SQL query here..."
-            className="w-full h-full p-4 border border-gray-200 rounded-lg dark:border-gray-800"
-          />
+          <div className="flex flex-col h-full w-full ">
+            <div className="h-full w-full max-w-2xl border border-gray-200 rounded-lg dark:border-gray-800">
+              <ResizablePanelGroup direction="vertical">
+                <ResizablePanel defaultSize={50}>
+                  <Textarea
+                    defaultValue={item?.query}
+                    className="h-full w-full resize-none border-0 focus:ring-0 dark:bg-gray-950"
+                    placeholder="Top text area"
+                  />
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={50}>
+                  <Textarea
+                    className="h-full w-full resize-none border-0 focus:ring-0 dark:bg-gray-950"
+                    placeholder="Bottom text area"
+                  />
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </div>
+          </div>
         );
       case "ai":
         return (
-          <div className="flex justify-center h-full text-2xl text-gray-500 dark:text-gray-400">
-            <PromptGenerator />
+          <div className="flex  h-full w-full text-2xl text-gray-500 dark:text-gray-400 bg-yellow-400">
+            <ChatGPT1 />
           </div>
         );
       case "tsx":
         return (
           <Textarea
             placeholder="Enter your TypeScript code here..."
-            className="w-full h-full p-4 border border-gray-200 rounded-lg dark:border-gray-800"
+            className="w-full h-full p-4 border border-gray-200 rounded-lg dark:border-gray-800 bg-red-400"
           />
         );
       default:
@@ -53,35 +92,56 @@ export function Editor() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
+      <div className="flex h-16 items-center gap-4 border-b border-gray-200 bg-white px-4 dark:border-gray-800 dark:bg-gray-900">
+        <CodeIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+        <h2 className="font-medium">{item?.name}</h2>
+        <div className="ml-auto flex items-center gap-2">
+          <Button variant="ghost" size="sm">
+            <EyeIcon className="h-4 w-4" />
+            <span className="sr-only">Preview</span>
+          </Button>
+          <Button variant="ghost" size="sm">
+            <PlayIcon className="h-4 w-4" />
+            <span className="sr-only">Run</span>
+          </Button>
+        </div>
+      </div>
       <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
         <div className="flex items-center gap-4">
-          <Button variant="outline">
+          <Button variant="outline" className="bg-red-100">
             <FilePlusIcon className="w-4 h-4 mr-2" />
             New Query
           </Button>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => {
+              if (props.onAdd && item) {
+                props.onAdd(item);
+              }
+            }}
+          >
             <SaveIcon className="w-4 h-4 mr-2" />
             Save
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" className="bg-red-100">
             <SaveAllIcon className="w-4 h-4 mr-2" />
             Save As
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="bg-red-100">
                 <DatabaseIcon className="w-4 h-4 mr-2" />
                 Database Connection
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[200px]">
+            <DropdownMenuContent className="w-[200px] bg-red-100">
               <DropdownMenuItem>Local PostgreSQL</DropdownMenuItem>
               <DropdownMenuItem>Cloud MySQL</DropdownMenuItem>
               <DropdownMenuItem>Remote Oracle</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="relative">
+          <div className="relative  bg-red-100">
             <Input
               type="search"
               placeholder="Search queries..."
@@ -97,7 +157,7 @@ export function Editor() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setView("view")}
+                  onClick={() => setViewAndSave("view")}
                 >
                   <ViewIcon className="w-4 h-4" />
                   <span className="sr-only">View Result</span>
@@ -110,7 +170,7 @@ export function Editor() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setView("sql")}
+                  onClick={() => setViewAndSave("sql")}
                 >
                   <CodeIcon className="w-4 h-4" />
                   <span className="sr-only">SQL</span>
@@ -123,7 +183,7 @@ export function Editor() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setView("ai")}
+                  onClick={() => setViewAndSave("ai")}
                 >
                   <BotIcon className="w-4 h-4" />
                   <span className="sr-only">AI Prompt</span>
@@ -133,7 +193,7 @@ export function Editor() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="default" onClick={() => setView("tsx")}>
+                <Button variant="default" onClick={() => setViewAndSave("tsx")}>
                   <CodeIcon className="w-4 h-4" />
                   &nbsp; Code
                 </Button>
@@ -143,8 +203,8 @@ export function Editor() {
           </TooltipProvider>
         </div>
       </header>
-      <main className="flex-1 overflow-auto">
-        <div className="h-full p-4">{renderContent()}</div>
+      <main className="overflow-auto  h-full">
+        <div className="h-full p-4 grow">{renderContent()}</div>
       </main>
     </div>
   );
@@ -320,6 +380,44 @@ function ViewIcon(props: IconProps) {
       <path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
       <path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2" />
       <path d="M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2" />
+    </svg>
+  );
+}
+
+function EyeIcon(props: IconProps) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+function PlayIcon(props: IconProps) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="6 3 20 12 6 21 6 3" />
     </svg>
   );
 }

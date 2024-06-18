@@ -6,8 +6,10 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export function PromptGenerator() {
+  const [prompt, setprompt] = useState("sdfde");
   return (
     <div className="grid md:grid-cols-[240px_1fr] gap-4 xmin-h-screen">
       <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
@@ -47,7 +49,7 @@ export function PromptGenerator() {
             <span className="sr-only">Generate</span>
           </Button>
         </div>
-        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg relative">
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg relative ">
           <div className="absolute top-2 right-2">
             <Button variant="ghost" size="icon">
               <ClipboardIcon className="w-4 h-4" />
@@ -55,13 +57,7 @@ export function PromptGenerator() {
             </Button>
           </div>
           <pre className="whitespace-pre-wrap">
-            <code>
-              SELECT u.name, p.name, o.order_date, o.total_amount FROM users u
-              JOIN orders o ON u.id = o.user_id JOIN order_items oi ON o.id =
-              oi.order_id JOIN products p ON oi.product_id = p.id WHERE
-              o.order_date BETWEEN '2023-01-01' AND '2023-03-31' ORDER BY
-              o.order_date DESC;
-            </code>
+            <code>{prompt}</code>
           </pre>
         </div>
       </div>
