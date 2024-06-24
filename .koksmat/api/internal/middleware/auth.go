@@ -24,7 +24,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		token, claims, err := validateJWT(tokenString)
 		if err != nil || !token.Valid {
 			log.Println("AuthMiddleware: Invalid token")
-			http.Error(w, "Invalid token", http.StatusUnauthorized)
+			http.Error(w, "Invalid token ", http.StatusUnauthorized)
 			return
 		}
 
@@ -37,7 +37,10 @@ func validateJWT(tokenString string) (*jwt.Token, *services.Claims, error) {
 	claims := &services.Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		secret := viper.GetString("JWT_SECRET")
-		secretKey := []byte(viper.GetString(secret))
+		if secret == "" {
+			log.Fatal("JWT_SECRET")
+		}
+		secretKey := []byte(secret)
 		return secretKey, nil
 	})
 	return token, claims, err

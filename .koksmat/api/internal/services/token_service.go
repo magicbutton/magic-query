@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -31,7 +32,10 @@ func GenerateJWT(token Token, duration time.Duration) (string, error) {
 
 	tokenJWT := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	secret := viper.GetString("JWT_SECRET")
-	secretKey := []byte(viper.GetString(secret))
+	if secret == "" {
+		log.Fatal("JWT_SECRET")
+	}
+	secretKey := []byte(secret)
 	tokenString, err := tokenJWT.SignedString(secretKey)
 	if err != nil {
 		return "", err

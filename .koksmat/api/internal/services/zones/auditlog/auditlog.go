@@ -11,8 +11,6 @@ package auditlog
 import (
 	"encoding/json"
 	"time"
-
-	"github.com/magicbutton/magic-api/internal/services"
 	// "github.com/magicbutton/magic-zones/database/databasetypes"
 )
 
@@ -27,7 +25,7 @@ func (r *AuditLog) Marshal() ([]byte, error) {
 }
 
 func Create(r *AuditLog) (*AuditLog, error) {
-	services.CallMicroservice()
+	//services.CallMicroservice()
 	return r, nil
 }
 

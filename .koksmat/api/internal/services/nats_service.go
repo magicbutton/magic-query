@@ -16,7 +16,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func CallMicroservice() error {
+func callMicroservice() error {
 	var nc *nats.Conn
 
 	natsServer := viper.GetString("NATS")

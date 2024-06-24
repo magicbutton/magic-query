@@ -71,9 +71,11 @@ export default function Layout(props: { children: any }) {
         {/* <div className="grow bg-slate-50 dark:bg-slate-800"></div> */}
         <div className="grow">{children}</div>
         {/* <div className="grow  bg-slate-50  dark:bg-slate-800"></div> */}
-        <div className="hidden md:block">
-          {magicbox.showTracer && <Tracer />}
-        </div>
+        {magicbox.showTracer && (
+          <div className="hidden md:block mt-20 bg-slate-200">
+            <Tracer />
+          </div>
+        )}
       </div>
       <div className=""></div>
     </AppProvider>
